@@ -50,6 +50,21 @@ export class SurveyService {
       throw error;
     }
   }
+  async findDetail(name: string) {
+    try {
+      const surveyFound = await this.surveyRepository
+        .createQueryBuilder('survey')
+        .where('survey.name ILIKE :name', { name: `%${name}%` })
+        .getMany();
+
+      if (!surveyFound.length) {
+        throw new NotFoundException('No hay Encuestas');
+      }
+      return surveyFound;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   async findOne(id: string) {
     try {
@@ -78,12 +93,14 @@ export class SurveyService {
 
   async remove(id: string) {
     try {
-      const surveyFound = await this.surveyRepository.findOneById(id);
+      const surveyFound = await this.surveyRepository.findOne({
+        where: { id },
+      });
       if (!surveyFound) {
         throw new NotFoundException('No se encontró la Encuesta');
       }
-      await this.surveyRepository.remove(surveyFound);
-      return 'Encuesta Eliminada';
+      const deleteSurvey = await this.surveyRepository.delete(surveyFound);
+      return deleteSurvey;
     } catch (error) {
       throw error;
     }

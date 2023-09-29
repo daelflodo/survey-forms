@@ -25,10 +25,10 @@ export class Survey {
 
   // Puedes agregar más columnas según sea necesario para otros campos de la encuesta
 
-  @Column({
-    name: 'created_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt: Date;
+  // @Column({
+  //   name: 'created_at',
+  //   type: 'timestamp',
+  //   default: () => 'CURRENT_TIMESTAMP',
+  // })
+  // createdAt: Date;
 }
